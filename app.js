@@ -35,6 +35,25 @@ $("dismissBanner").addEventListener("click",()=>{$("dismissBanner").closest(".ba
 function persistOnly(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
 if(state.dismissed){const b=document.querySelector(".banner");if(b)b.remove();}
 
+function renderFollowupQueue(){
+ const rows=state.leads.filter(l=>l.status!=="Do Not Call"&&l.status!=="Not Interested"&&(l.callbackRequested==="yes"||l.visitRequested==="yes"||l.status==="Callback"));
+ const body=$("followupQueue"),empty=$("followupEmpty");if(!body)return;
+ if(empty)empty.classList.toggle("hidden",rows.length>0);
+ body.innerHTML=rows.map(l=>{
+  const tasks=[];
+  if(l.callbackRequested==="yes"||l.status==="Callback")tasks.push("Sales callback");
+  if(l.visitRequested==="yes")tasks.push("Site visit");
+  const req=[l.type,l.area,l.location,l.budget].filter(Boolean).join(" · ");
+  const permission=l.permission==="yes"?"Permission verified":l.permission==="no"?"No permission / opt-out":"Permission unverified";
+  return `<tr><td><b>${escapeHtml(l.name)}</b><small style="display:block">${escapeHtml(l.phone)}</small></td><td>${escapeHtml(req||"Requirements incomplete")}</td><td>${escapeHtml(tasks.join(" + ")||"Callback follow-up")}</td><td>${escapeHtml(permission)}</td><td><button class="mini-btn" data-followup-done="${escapeHtml(l.id)}">Mark reviewed</button></td></tr>`;
+ }).join("");
+ body.querySelectorAll("[data-followup-done]").forEach(b=>b.addEventListener("click",()=>{
+  const lead=state.leads.find(x=>x.id===b.dataset.followupDone);if(!lead)return;
+  lead.callbackRequested="reviewed";lead.visitRequested="reviewed";if(lead.status==="Callback")lead.status="Warm";
+  lead.notes=(lead.notes?lead.notes+" | ":"")+"Follow-up reviewed by sales team on "+new Date().toLocaleDateString("en-IN");
+  save();showToast("Follow-up marked reviewed. No call was placed.");
+ }));
+}
 function renderOverview(){
  $("statLeads").textContent=state.leads.length;
  $("navLeadCount").textContent=state.leads.length;
@@ -99,7 +118,7 @@ function renderCallSettings(){
  if($("callOpeningScript"))$("callOpeningScript").value=s.openingScript||"Namaste, main {{builder}} ki virtual assistant hoon. Kya abhi do minute baat karna convenient hai?";
  if($("callRequirePermission"))$("callRequirePermission").checked=s.requirePermission!==false;
 }
-function renderAll(){renderBranding();renderOverview();renderLeads();renderCalls();renderProperties();fillSelects();$("builderName").value=state.settings.builderName||"";$("handoffContact").value=state.settings.handoffContact||"";$("businessHours").value=state.settings.businessHours||"";$("aiTone").value=state.settings.aiTone||"Friendly and professional Hinglish";renderCallSettings();renderCallingIntegration();}
+function renderAll(){renderBranding();renderFollowupQueue();renderOverview();renderLeads();renderCalls();renderProperties();fillSelects();$("builderName").value=state.settings.builderName||"";$("handoffContact").value=state.settings.handoffContact||"";$("businessHours").value=state.settings.businessHours||"";$("aiTone").value=state.settings.aiTone||"Friendly and professional Hinglish";renderCallSettings();renderCallingIntegration();}
 function openLeadModal(id){const l=state.leads.find(x=>x.id===id);$("leadForm").reset();$("leadId").value=l?.id||"";$("modalTitle").textContent=l?"Edit lead":"Add lead";$("modalSubtitle").textContent="Enter the builder’s existing lead details.";if(l){$("leadName").value=l.name;$("leadPhone").value=l.phone;$("leadBudget").value=l.budget||"";$("leadLocation").value=l.location||"";$("leadType").value=l.type||"Shop";if($("leadArea"))$("leadArea").value=l.area||"";if($("leadPurpose"))$("leadPurpose").value=l.purpose||"Not specified";if($("leadCallback"))$("leadCallback").value=l.callbackRequested||"unknown";if($("leadVisit"))$("leadVisit").value=l.visitRequested||"unknown";$("leadStatus").value=l.status||"New";$("leadPermission").value=l.permission||"unknown";$("leadTimeline").value=l.timeline||"";$("leadNotes").value=l.notes||"";} $("modalBackdrop").classList.remove("hidden");}
 function closeLeadModal(){$("modalBackdrop").classList.add("hidden");}
 $("addLeadBtn").addEventListener("click",()=>openLeadModal());$("closeModal").addEventListener("click",closeLeadModal);$("cancelModal").addEventListener("click",closeLeadModal);
