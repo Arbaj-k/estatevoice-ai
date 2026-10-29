@@ -12,7 +12,7 @@
     <aside class="sidebar" id="sidebar">
       <div class="brand"><div class="brand-mark">E</div><div><strong>estatevoice<span>.ai</span></strong><small>SALES CONSOLE</small></div></div>
       <div class="workspace-label">WORKSPACE</div>
-      <div class="workspace"><div class="workspace-icon">A</div><div><b>Acme Realty</b><small>Single-builder pilot</small></div><span class="chevron">⌄</span></div>
+      <div class="workspace"><div class="workspace-icon" id="workspaceInitial">A</div><div><b id="workspaceName">Acme Realty</b><small>Builder workspace</small></div><span class="chevron">⌄</span></div>
       <nav class="nav">
         <button class="nav-item active" data-page="overview"><span>◫</span> Overview</button>
         <button class="nav-item" data-page="leads"><span>♧</span> Leads <b id="navLeadCount" class="nav-count">8</b></button>
@@ -35,7 +35,7 @@
       </header>
 
       <section class="page active" id="page-overview">
-        <div class="page-heading"><div><div class="eyebrow">MONDAY, OCTOBER 29, 2026</div><h1>Good morning, Admin <span class="wave">✦</span></h1><p>Here’s what’s happening with your sales pipeline today.</p></div><button class="btn btn-primary" data-goto="leads">＋ Add leads</button></div>
+        <div class="page-heading"><div><div class="eyebrow">MONDAY, OCTOBER 29, 2026</div><h1>Sales overview <span class="wave">✦</span></h1><p>Here’s what’s happening with your sales pipeline today.</p></div><button class="btn btn-primary" data-goto="leads">＋ Add leads</button></div>
         <div class="banner"><div class="banner-icon">✦</div><div><b>Your AI sales assistant is ready to test</b><p>Import builder leads, add verified project details, then run a simulated Hinglish call.</p></div><button class="banner-link" data-goto="campaigns">Try a demo call <span>→</span></button><button class="banner-close" id="dismissBanner">×</button></div>
         <div class="stats-grid">
           <article class="stat-card"><div class="stat-top"><span>Total leads</span><span class="stat-icon blue">♧</span></div><div class="stat-number" id="statLeads">8</div><div class="stat-foot"><span class="neutral-chip">Pilot workspace</span><span class="muted">in your pipeline</span></div></article>
