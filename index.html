@@ -53,6 +53,7 @@
           <div class="step" data-step="3"><span>3</span><div><b>Import leads with calling permission</b><small>Upload the builder’s existing CSV lead list.</small><button class="text-button" data-goto="leads">Import leads →</button></div></div>
           <div class="step" data-step="4"><span>4</span><div><b>Test a simulated call</b><small>No phone call or charge is made in demo mode.</small><button class="text-button" data-goto="campaigns">Run demo call →</button></div></div>
         </div></div>
+        <div class="panel" style="margin-top:18px"><div class="panel-head"><div><h2>Commercial lead follow-ups</h2><p>Callback and site-visit requests that need a human confirmation.</p></div><button class="btn btn-secondary" data-goto="leads">Manage leads</button></div><div class="table-wrap"><table><thead><tr><th>Lead</th><th>Requirement</th><th>Requested next step</th><th>Permission</th><th>Action</th></tr></thead><tbody id="followupQueue"></tbody></table></div><div id="followupEmpty" class="empty-state hidden">No callback or site-visit requests are waiting.</div><p class="muted" style="margin:12px 0 0">This queue records manual follow-up tasks only. It does not schedule or place calls automatically.</p></div>
         <div class="notice"><span>ⓘ</span><p><b>Safety first:</b> Live calling is disabled in this prototype. Before calling real customers, configure a telephony provider, secure server-side credentials, consent and opt-out handling, and review applicable Indian calling rules.</p></div>
       </section>
 
