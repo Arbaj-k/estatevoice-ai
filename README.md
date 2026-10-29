@@ -1,31 +1,29 @@
 # EstateVoice AI
 
-Static MVP dashboard for a real-estate sales assistant. Live calling is not enabled; call flows are simulated only.
+A static real-estate sales workspace prototype for organising prospects, property inventory, and simulated call flows.
 
-## Automatic deployment
-This repository is configured to publish the contents of the repository root to GitHub Pages whenever a commit is pushed to `main`.
+## Included
+- `index.html` — dashboard and workspace UI
+- `styles.css` — responsive desktop/mobile styling
+- `app.js` — lead and property forms, local demo storage, CSV export, and simulated call activity
+- `AI_AGENT_PROMPT.md` — starting conversation and safety specification for a future voice agent
+- `BACKEND_SETUP.md` — backend/security integration notes
+- `LEAD_IMPORT_TEMPLATE.csv` — blank CSV template for lead fields
+- `.github/workflows/pages.yml` — automatic GitHub Pages deployment workflow
 
-After the application files have been uploaded:
-1. Open **Settings → Pages** and confirm **Build and deployment → Source: GitHub Actions**.
-2. Open the **Actions** tab and check the **Deploy EstateVoice AI to GitHub Pages** workflow.
-3. The deployed URL will be shown in the successful workflow run and under **Settings → Pages**.
+## Deploy to GitHub Pages
+1. Open **Settings → Pages**.
+2. Set **Build and deployment → Source** to **GitHub Actions**.
+3. Open the **Actions** tab and check **Deploy EstateVoice AI to GitHub Pages**.
+4. Once successful, find the public URL in the workflow run or Settings → Pages.
 
-## Required app files
-Upload the application files from the latest EstateVoice AI project ZIP into the repository root, keeping these files together:
-- `index.html`
-- `styles.css`
-- `app.js`
-- `cloud-sync.js`
-- `supabase-config.js`
-- `supabase-schema.sql`
-- `BACKEND_SETUP.md`
-- `AI_AGENT_PROMPT.md`
-- `LEAD_IMPORT_TEMPLATE.csv`
+Every push to `main` triggers deployment. Changes made in ChatGPT do not reach GitHub unless they are committed to this repository.
 
-## Supabase setup
-Run `supabase-schema.sql` in the SQL Editor of the Supabase project before using cloud sync. The browser publishable key is public by design; never place a Supabase secret/service-role key in frontend code. Use Row Level Security and verify the policies before storing real customer data.
+## Important current limitations
+- **Demo only:** the app does not place real phone calls. “Simulate a call” only records a sample flow.
+- **Browser-only storage:** leads, properties, and simulated-call activity are stored in the current browser's `localStorage`. They do not sync across devices or team members and may be lost if browser data is cleared.
+- **No Supabase connection yet:** the current build has not been connected to a verified database. See `BACKEND_SETUP.md` before adding a backend.
+- **No production calling integration:** a real voice agent needs a secured backend, a voice/telephony provider, consent and opt-out handling, and applicable compliance checks.
 
-## Limitations
-- The current prototype does not place real phone calls.
-- Do not upload real customer lead data or credentials to this public repository.
-- Pushes to `main` trigger deployment automatically, but changes made in ChatGPT do not reach GitHub unless committed/pushed.
+## Security
+This is a public repository. Never commit real customer data, lead exports, passwords, API tokens, or Supabase service-role keys. Do not store real prospect information in this demo.
