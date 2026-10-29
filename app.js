@@ -82,7 +82,15 @@ function fillSelects(){
  $("demoProperty").innerHTML=state.properties.map(p=>`<option value="${p.id}">${escapeHtml(p.name)}</option>`).join("")||`<option value="">No project — add one first</option>`;
  if(state.properties.some(p=>p.id===oldProp))$("demoProperty").value=oldProp;
 }
-function renderAll(){renderOverview();renderLeads();renderCalls();renderProperties();fillSelects();$("builderName").value=state.settings.builderName||"";$("handoffContact").value=state.settings.handoffContact||"";$("businessHours").value=state.settings.businessHours||"";$("aiTone").value=state.settings.aiTone||"Friendly and professional Hinglish";}
+function renderBranding(){
+ const name=(state.settings.builderName||"Builder workspace").trim()||"Builder workspace";
+ const label=$("workspaceName"),initial=$("workspaceInitial"),title=document.querySelector("#page-overview h1");
+ if(label)label.textContent=name;
+ if(initial)initial.textContent=initials(name).slice(0,1);
+ if(title)title.innerHTML=escapeHtml(name)+" <span class="wave">✦</span>";
+ document.title="EstateVoice AI — "+name;
+}
+function renderAll(){renderBranding();renderOverview();renderLeads();renderCalls();renderProperties();fillSelects();$("builderName").value=state.settings.builderName||"";$("handoffContact").value=state.settings.handoffContact||"";$("businessHours").value=state.settings.businessHours||"";$("aiTone").value=state.settings.aiTone||"Friendly and professional Hinglish";}
 function openLeadModal(id){const l=state.leads.find(x=>x.id===id);$("leadForm").reset();$("leadId").value=l?.id||"";$("modalTitle").textContent=l?"Edit lead":"Add lead";$("modalSubtitle").textContent="Enter the builder’s existing lead details.";if(l){$("leadName").value=l.name;$("leadPhone").value=l.phone;$("leadBudget").value=l.budget||"";$("leadLocation").value=l.location||"";$("leadType").value=l.type||"Apartment";$("leadStatus").value=l.status||"New";$("leadPermission").value=l.permission||"unknown";$("leadTimeline").value=l.timeline||"";$("leadNotes").value=l.notes||"";} $("modalBackdrop").classList.remove("hidden");}
 function closeLeadModal(){$("modalBackdrop").classList.add("hidden");}
 $("addLeadBtn").addEventListener("click",()=>openLeadModal());$("closeModal").addEventListener("click",closeLeadModal);$("cancelModal").addEventListener("click",closeLeadModal);
@@ -115,6 +123,6 @@ function runDemo(){
  $("transcript").scrollTop=$("transcript").scrollHeight;showToast("Simulated call complete. No real call was placed.");
 }
 $("runDemo").addEventListener("click",runDemo);
-$("saveSettings").addEventListener("click",()=>{state.settings={builderName:$("builderName").value.trim()||"Builder workspace",handoffContact:$("handoffContact").value.trim(),businessHours:$("businessHours").value.trim(),aiTone:$("aiTone").value};save();showToast("Settings saved locally in this browser.");});
+$("saveSettings").addEventListener("click",()=>{state.settings={builderName:$("builderName").value.trim()||"Builder workspace",handoffContact:$("handoffContact").value.trim(),businessHours:$("businessHours").value.trim(),aiTone:$("aiTone").value};save();showToast("Builder profile saved. Workspace branding updated.");});
 function init(){renderAll();if(!state.calls.length){$("statCalls").textContent="0";}}
 init();
