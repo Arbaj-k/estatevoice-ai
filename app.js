@@ -135,7 +135,7 @@ $("runDemo").addEventListener("click",runDemo);
 $("saveSettings").addEventListener("click",()=>{state.settings={builderName:$("builderName").value.trim()||"Builder workspace",handoffContact:$("handoffContact").value.trim(),businessHours:$("businessHours").value.trim(),aiTone:$("aiTone").value};save();showToast("Builder profile saved. Workspace branding updated.");});
 function renderCallingIntegration(){
  const s=state.settings.callIntegration||{};
- if($("callProvider"))$("callProvider").value=s.provider||"undecided";
+ if($("callProvider"))$("callProvider").value=s.provider||"exotel";
  if($("voiceProvider"))$("voiceProvider").value=s.voiceProvider||"undecided";
  if($("callerIdStatus"))$("callerIdStatus").value=s.callerIdStatus||"pending";
  if($("callBackendStatus"))$("callBackendStatus").value=s.backendStatus||"missing";
