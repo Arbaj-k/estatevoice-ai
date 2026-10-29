@@ -90,7 +90,16 @@ function renderBranding(){
  if(title)title.innerHTML=escapeHtml(name)+' <span class="wave">✦</span>';
  document.title="EstateVoice AI — "+name;
 }
-function renderAll(){renderBranding();renderOverview();renderLeads();renderCalls();renderProperties();fillSelects();$("builderName").value=state.settings.builderName||"";$("handoffContact").value=state.settings.handoffContact||"";$("businessHours").value=state.settings.businessHours||"";$("aiTone").value=state.settings.aiTone||"Friendly and professional Hinglish";}
+function renderCallSettings(){
+ const s=state.settings.callSettings||{};
+ if($("callLanguage"))$("callLanguage").value=s.language||"Hinglish";
+ if($("callWindow"))$("callWindow").value=s.window||"Mon–Sat, 10 AM–6 PM";
+ if($("callMaxAttempts"))$("callMaxAttempts").value=String(s.maxAttempts||1);
+ if($("callRetryGap"))$("callRetryGap").value=String(s.retryGap||24);
+ if($("callOpeningScript"))$("callOpeningScript").value=s.openingScript||"Namaste, main {{builder}} ki virtual assistant hoon. Kya abhi do minute baat karna convenient hai?";
+ if($("callRequirePermission"))$("callRequirePermission").checked=s.requirePermission!==false;
+}
+function renderAll(){renderBranding();renderOverview();renderLeads();renderCalls();renderProperties();fillSelects();$("builderName").value=state.settings.builderName||"";$("handoffContact").value=state.settings.handoffContact||"";$("businessHours").value=state.settings.businessHours||"";$("aiTone").value=state.settings.aiTone||"Friendly and professional Hinglish";renderCallSettings();}
 function openLeadModal(id){const l=state.leads.find(x=>x.id===id);$("leadForm").reset();$("leadId").value=l?.id||"";$("modalTitle").textContent=l?"Edit lead":"Add lead";$("modalSubtitle").textContent="Enter the builder’s existing lead details.";if(l){$("leadName").value=l.name;$("leadPhone").value=l.phone;$("leadBudget").value=l.budget||"";$("leadLocation").value=l.location||"";$("leadType").value=l.type||"Apartment";$("leadStatus").value=l.status||"New";$("leadPermission").value=l.permission||"unknown";$("leadTimeline").value=l.timeline||"";$("leadNotes").value=l.notes||"";} $("modalBackdrop").classList.remove("hidden");}
 function closeLeadModal(){$("modalBackdrop").classList.add("hidden");}
 $("addLeadBtn").addEventListener("click",()=>openLeadModal());$("closeModal").addEventListener("click",closeLeadModal);$("cancelModal").addEventListener("click",closeLeadModal);
@@ -124,5 +133,16 @@ function runDemo(){
 }
 $("runDemo").addEventListener("click",runDemo);
 $("saveSettings").addEventListener("click",()=>{state.settings={builderName:$("builderName").value.trim()||"Builder workspace",handoffContact:$("handoffContact").value.trim(),businessHours:$("businessHours").value.trim(),aiTone:$("aiTone").value};save();showToast("Builder profile saved. Workspace branding updated.");});
+function saveCallSettings(){
+ state.settings=state.settings||{};
+ state.settings.callSettings={language:$("callLanguage").value,window:$("callWindow").value,maxAttempts:Number($("callMaxAttempts").value),retryGap:Number($("callRetryGap").value),openingScript:$("callOpeningScript").value.trim(),requirePermission:$("callRequirePermission").checked};
+ save();showToast("Call preferences saved locally. Live calls remain disabled.");
+}
+const saveCallBtn=document.createElement("button");
+saveCallBtn.type="button";saveCallBtn.className="btn btn-primary";saveCallBtn.textContent="Save call settings";
+saveCallBtn.addEventListener("click",saveCallSettings);
+const callPanel=document.querySelector(".call-settings-panel");
+if(callPanel){const actions=document.createElement("div");actions.className="modal-actions";actions.appendChild(saveCallBtn);callPanel.appendChild(actions);}
+
 function init(){renderAll();if(!state.calls.length){$("statCalls").textContent="0";}}
 init();
