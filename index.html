@@ -1,22 +1,122 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b1220"><meta name="description" content="EstateVoice AI real-estate lead workspace and call-flow simulator.">
-<title>EstateVoice AI — Sales Workspace</title><link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="EstateVoice AI — real estate lead qualification dashboard">
+  <title>EstateVoice AI — Sales Console</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<aside class="sidebar"><a class="brand" href="#"><span class="brand-icon">EV</span><span>EstateVoice <small>AI SALES DESK</small></span></a>
-<nav><button class="nav active" data-view="overview">◫ <span>Overview</span></button><button class="nav" data-view="leads">♙ <span>Leads</span></button><button class="nav" data-view="properties">⌂ <span>Properties</span></button><button class="nav" data-view="calls">◉ <span>Call activity</span></button></nav>
-<div class="sidebar-bottom"><div class="status-dot"></div><div><b>Demo mode</b><small>No real calls placed</small></div></div></aside>
-<main class="main"><header class="topbar"><div><p class="eyebrow">REAL ESTATE · SALES AUTOMATION</p><h1 id="pageTitle">Overview</h1></div><div class="top-actions"><button class="btn ghost" id="exportBtn">Export leads CSV</button><button class="btn primary" id="addLeadTop">＋ Add lead</button></div></header>
-<section class="view" id="overviewView"><div class="welcome"><div><p class="eyebrow light">YOUR SALES COPILOT</p><h2>Turn new enquiries into<br>meaningful conversations.</h2><p>Organise leads, match property interests and rehearse AI-assisted call flows.</p><button class="btn white" id="startDemo">▶ Simulate a call</button></div><div class="orb">EV<span>AI</span></div></div>
-<div class="stats"><article class="stat"><span>Total leads</span><b id="statLeads">0</b><small>In your workspace</small></article><article class="stat"><span>Properties</span><b id="statProperties">0</b><small>Available listings</small></article><article class="stat"><span>Calls simulated</span><b id="statCalls">0</b><small>Demo activity only</small></article><article class="stat"><span>Follow-ups</span><b id="statFollowups">0</b><small>Marked for follow-up</small></article></div>
-<div class="grid"><section class="panel"><div class="panel-head"><div><h3>Recent leads</h3><p>Your latest prospect enquiries</p></div><button class="text-btn" data-goto="leads">View all →</button></div><div id="recentLeads"></div></section><section class="panel"><div class="panel-head"><div><h3>Quick actions</h3><p>Keep your pipeline moving</p></div></div><button class="quick" id="quickLead"><span>＋</span><div><b>Add a new lead</b><small>Record a prospect and their requirements</small></div>›</button><button class="quick" id="quickProperty"><span>⌂</span><div><b>Add a property</b><small>Keep inventory and pricing organised</small></div>›</button><button class="quick" id="quickCall"><span>◉</span><div><b>Run a call simulation</b><small>Preview a sample sales conversation</small></div>›</button></section></div></section>
-<section class="view hidden" id="leadsView"><div class="section-head"><div><h2>Lead pipeline</h2><p>Keep prospect details in this browser workspace.</p></div><button class="btn primary" id="addLeadBtn">＋ Add lead</button></div><div class="panel"><div class="table-wrap"><table><thead><tr><th>Prospect</th><th>Interest</th><th>Budget</th><th>Status</th><th>Next step</th><th></th></tr></thead><tbody id="leadsTable"></tbody></table></div><div id="emptyLeads" class="empty hidden">No leads yet. Add your first prospect to begin.</div></div></section>
-<section class="view hidden" id="propertiesView"><div class="section-head"><div><h2>Property inventory</h2><p>Projects your sales assistant can discuss.</p></div><button class="btn primary" id="addPropertyBtn">＋ Add property</button></div><div class="property-grid" id="propertyGrid"></div><div id="emptyProperties" class="empty hidden">No properties yet. Add your first listing.</div></section>
-<section class="view hidden" id="callsView"><div class="section-head"><div><h2>Call activity</h2><p>Simulation history only — this MVP does not place phone calls.</p></div><button class="btn primary" id="simulateCallBtn">▶ Simulate a call</button></div><div class="panel" id="callList"></div></section>
-<footer>EstateVoice AI <span>Prototype · Demo calls only · Do not store sensitive customer data in this demo</span></footer></main>
-<div class="modal-backdrop hidden" id="modalBackdrop"><section class="modal" role="dialog" aria-modal="true"><div class="modal-head"><div><p class="eyebrow">WORKSPACE</p><h2 id="modalTitle">Add lead</h2></div><button class="close" id="closeModal" aria-label="Close">×</button></div><form id="itemForm"><div id="formFields" class="form-grid"></div><div class="form-actions"><button class="btn ghost" type="button" id="cancelModal">Cancel</button><button class="btn primary" type="submit" id="saveItem">Save</button></div></form></section></div>
-<div class="toast hidden" id="toast" role="status"></div>
-<script src="app.js"></script></body></html>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><div class="brand-mark">E</div><div><strong>estatevoice<span>.ai</span></strong><small>SALES CONSOLE</small></div></div>
+      <div class="workspace-label">WORKSPACE</div>
+      <div class="workspace"><div class="workspace-icon">A</div><div><b>Acme Realty</b><small>Single-builder pilot</small></div><span class="chevron">⌄</span></div>
+      <nav class="nav">
+        <button class="nav-item active" data-page="overview"><span>◫</span> Overview</button>
+        <button class="nav-item" data-page="leads"><span>♧</span> Leads <b id="navLeadCount" class="nav-count">8</b></button>
+        <button class="nav-item" data-page="campaigns"><span>◉</span> Campaigns</button>
+        <button class="nav-item" data-page="calls"><span>☷</span> Call history</button>
+        <button class="nav-item" data-page="properties"><span>⌂</span> Property knowledge</button>
+        <button class="nav-item" data-page="settings"><span>⚙</span> Settings</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="status-box"><div class="status-dot"></div><div><b>Demo mode active</b><small>No real calls are placed</small></div></div>
+        <div class="profile"><div class="avatar">AD</div><div><b>Admin</b><small>Workspace owner</small></div><span class="more">•••</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div class="breadcrumbs">Workspace <span>/</span> <b id="crumb">Overview</b></div>
+        <div class="top-actions"><span class="demo-pill"><i></i> DEMO ENVIRONMENT</span><button class="btn btn-secondary cloud-btn" id="cloudBtn">☁ Connect cloud</button><button class="icon-button" id="helpBtn" title="Help">?</button><div class="avatar small" id="userAvatar">AD</div></div>
+      </header>
+
+      <section class="page active" id="page-overview">
+        <div class="page-heading"><div><div class="eyebrow">MONDAY, OCTOBER 29, 2026</div><h1>Good morning, Admin <span class="wave">✦</span></h1><p>Here’s what’s happening with your sales pipeline today.</p></div><button class="btn btn-primary" data-goto="leads">＋ Add leads</button></div>
+        <div class="banner"><div class="banner-icon">✦</div><div><b>Your AI sales assistant is ready to test</b><p>Import builder leads, add verified project details, then run a simulated Hinglish call.</p></div><button class="banner-link" data-goto="campaigns">Try a demo call <span>→</span></button><button class="banner-close" id="dismissBanner">×</button></div>
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span>Total leads</span><span class="stat-icon blue">♧</span></div><div class="stat-number" id="statLeads">8</div><div class="stat-foot"><span class="neutral-chip">Pilot workspace</span><span class="muted">in your pipeline</span></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Demo calls completed</span><span class="stat-icon violet">◉</span></div><div class="stat-number" id="statCalls">3</div><div class="stat-foot"><span class="positive">↗ Demo activity</span><span class="muted">simulated only</span></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Interested leads</span><span class="stat-icon green">↗</span></div><div class="stat-number" id="statHot">2</div><div class="stat-foot"><span class="positive">Hot / Warm</span><span class="muted">from demo outcomes</span></div></article>
+          <article class="stat-card"><div class="stat-top"><span>Site visits requested</span><span class="stat-icon amber">⌖</span></div><div class="stat-number" id="statVisits">1</div><div class="stat-foot"><span class="neutral-chip">Human follow-up</span><span class="muted">to be confirmed</span></div></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel pipeline-panel"><div class="panel-heading"><div><h2>Lead pipeline</h2><p>Current status of your builder’s leads</p></div><button class="text-button" data-goto="leads">View all →</button></div><div id="pipeline" class="pipeline"></div><div class="pipeline-legend"><span><i class="dot dot-hot"></i>Hot</span><span><i class="dot dot-warm"></i>Warm</span><span><i class="dot dot-cold"></i>Cold</span><span><i class="dot dot-new"></i>New</span></div></article>
+          <article class="panel activity-panel"><div class="panel-heading"><div><h2>Recent activity</h2><p>Latest demo actions</p></div><button class="text-button" data-goto="calls">View history →</button></div><div id="recentActivity" class="activity-list"></div></article>
+        </div>
+        <div class="panel onboarding"><div class="panel-heading"><div><h2>Getting started</h2><p>Complete these steps before you connect real calling.</p></div><span class="progress-label" id="progressLabel">1 of 4 complete</span></div><div class="progress-track"><div id="progressBar"></div></div><div class="steps">
+          <div class="step done" data-step="1"><span>✓</span><div><b>Explore your dashboard</b><small>You’re here — demo data is loaded.</small></div></div>
+          <div class="step" data-step="2"><span>2</span><div><b>Add verified project facts</b><small>Only approved details should be shared with customers.</small><button class="text-button" data-goto="properties">Add property details →</button></div></div>
+          <div class="step" data-step="3"><span>3</span><div><b>Import leads with calling permission</b><small>Upload the builder’s existing CSV lead list.</small><button class="text-button" data-goto="leads">Import leads →</button></div></div>
+          <div class="step" data-step="4"><span>4</span><div><b>Test a simulated call</b><small>No phone call or charge is made in demo mode.</small><button class="text-button" data-goto="campaigns">Run demo call →</button></div></div>
+        </div></div>
+        <div class="notice"><span>ⓘ</span><p><b>Safety first:</b> Live calling is disabled in this prototype. Before calling real customers, configure a telephony provider, secure server-side credentials, consent and opt-out handling, and review applicable Indian calling rules.</p></div>
+      </section>
+
+      <section class="page" id="page-leads">
+        <div class="page-heading"><div><div class="eyebrow">SALES PIPELINE</div><h1>Leads</h1><p>Manage the builder’s existing leads and their follow-up status.</p></div><div class="heading-actions"><button class="btn btn-secondary" id="downloadTemplate">↓ CSV template</button><button class="btn btn-primary" id="addLeadBtn">＋ Add lead</button></div></div>
+        <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="leadSearch" placeholder="Search name, phone, location..." aria-label="Search leads"></div><select id="leadStatusFilter" aria-label="Filter by lead status"><option value="all">All statuses</option><option>New</option><option>Hot</option><option>Warm</option><option>Cold</option><option>Callback</option><option>Not Interested</option><option>Do Not Call</option></select><label class="btn btn-secondary import-label">↑ Import CSV<input id="csvImport" type="file" accept=".csv,text/csv" hidden></label></div>
+        <div class="panel table-panel"><div class="table-meta"><span id="leadResults">8 leads</span><span class="tiny-muted">Sample data is fictional</span></div><div class="table-wrap"><table><thead><tr><th>LEAD</th><th>REQUIREMENTS</th><th>STATUS</th><th>PERMISSION</th><th>LAST CONTACT</th><th></th></tr></thead><tbody id="leadsTable"></tbody></table></div><div class="empty-state hidden" id="leadEmpty">No leads match this search.</div></div>
+        <div class="notice"><span>ⓘ</span><p>Import only leads the builder is permitted to contact. Mark opt-outs as <b>Do Not Call</b>; the demo will not place real calls.</p></div>
+      </section>
+
+      <section class="page" id="page-campaigns">
+        <div class="page-heading"><div><div class="eyebrow">AI OUTREACH</div><h1>Campaigns & demo calls</h1><p>Test the Hinglish sales conversation before integrating a phone provider.</p></div><span class="demo-pill"><i></i> SIMULATED</span></div>
+        <div class="campaign-layout">
+          <div class="panel campaign-setup"><div class="panel-heading"><div><h2>Demo call setup</h2><p>Choose a sample lead and a verified project.</p></div><span class="step-badge">01</span></div>
+            <label class="field-label">Select lead<select id="demoLead"></select></label>
+            <label class="field-label">Property project<select id="demoProperty"></select></label>
+            <label class="field-label">Call purpose<select id="callPurpose"><option value="qualify">Qualify buyer requirements</option><option value="project">Explain project</option><option value="callback">Arrange sales callback</option><option value="visit">Request a site visit</option></select></label>
+            <label class="field-label">AI opening line<textarea id="openingLine" rows="3">Hello sir/ma’am, main EstateVoice AI ki virtual assistant hoon, Acme Realty ki taraf se. Kya abhi do minute baat karna convenient hai?</textarea></label>
+            <div class="permission-note"><span>✓</span><p><b>Demo-safe environment</b><br>Conversation is simulated in your browser. No number is dialed.</p></div>
+            <button class="btn btn-primary full-btn" id="runDemo">▶ Run simulated call</button>
+            <button class="btn btn-disabled full-btn" disabled>☎ Start real campaign — not configured</button>
+            <small class="disabled-help">Real calling requires a provider, secure backend and reviewed consent/compliance setup.</small>
+          </div>
+          <div class="panel simulator"><div class="sim-header"><div class="sim-avatar">✦</div><div><h2>AI conversation preview</h2><p><span class="live-dot"></span> <span id="simState">Ready to simulate</span></p></div><span class="simulated-label">NOT A REAL CALL</span></div>
+            <div id="transcript" class="transcript"><div class="transcript-empty"><div class="empty-wave">◉</div><b>Your demo call will appear here</b><p>Select a lead and run the simulation to preview the conversation and lead summary.</p></div></div>
+            <div class="sim-footer"><div class="mic-icon">⌁</div><span>Simulated text conversation · no audio or phone call</span><span class="lock-icon">▣</span></div>
+          </div>
+        </div>
+        <div class="panel call-checklist"><div class="panel-heading"><div><h2>Before enabling real calls</h2><p>These are required setup items, not proof of compliance.</p></div></div><div class="check-grid"><div><span>1</span><b>Choose telephony provider</b><small>Use an appropriate business calling service.</small></div><div><span>2</span><b>Secure server-side keys</b><small>Never put API secrets in browser code.</small></div><div><span>3</span><b>Verify consent & opt-outs</b><small>Honor permission, Do Not Call and quiet hours.</small></div><div><span>4</span><b>Human handoff tested</b><small>Confirm sales callbacks and site-visit flow.</small></div></div></div>
+      </section>
+
+      <section class="page" id="page-calls">
+        <div class="page-heading"><div><div class="eyebrow">CONVERSATION LOGS</div><h1>Call history</h1><p>Review simulated call outcomes and follow-up actions.</p></div><span class="demo-pill"><i></i> DEMO RECORDS</span></div>
+        <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="callSearch" placeholder="Search lead or summary..." aria-label="Search call history"></div><select id="callFilter"><option value="all">All outcomes</option><option>Hot</option><option>Warm</option><option>Cold</option><option>Callback</option><option>Not Interested</option></select></div>
+        <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>LEAD</th><th>DATE</th><th>DURATION</th><th>OUTCOME</th><th>SUMMARY / NEXT ACTION</th><th></th></tr></thead><tbody id="callsTable"></tbody></table></div><div class="empty-state hidden" id="callsEmpty">No call records yet. Run a simulated call to add one.</div></div>
+      </section>
+
+      <section class="page" id="page-properties">
+        <div class="page-heading"><div><div class="eyebrow">VERIFIED PROJECT FACTS</div><h1>Property knowledge base</h1><p>Only facts added here should be used in customer conversations.</p></div><button class="btn btn-primary" id="addPropertyBtn">＋ Add project</button></div>
+        <div class="notice"><span>ⓘ</span><p>AI must not invent prices, availability, RERA status, guaranteed returns or promises. Keep facts current; missing details should be handed to a human.</p></div>
+        <div id="propertyCards" class="property-grid"></div>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="page-heading"><div><div class="eyebrow">WORKSPACE CONFIGURATION</div><h1>Settings</h1><p>Manage the builder profile and connected services.</p></div><button class="btn btn-primary" id="saveSettings">Save settings</button></div>
+        <div class="settings-grid">
+          <div class="panel settings-panel"><div class="panel-heading"><div><h2>Builder profile</h2><p>Company details shown in the demo.</p></div></div><label class="field-label">Builder / company name<input id="builderName" value="Acme Realty"></label><label class="field-label">Sales handoff contact<input id="handoffContact" placeholder="Sales team phone or email"></label><label class="field-label">Business hours<input id="businessHours" value="Mon–Sat, 10:00 AM – 6:00 PM"></label><label class="field-label">AI conversation style<select id="aiTone"><option>Friendly and professional Hinglish</option><option>Formal Hindi</option><option>Simple English</option></select></label></div>
+          <div class="panel settings-panel"><div class="panel-heading"><div><h2>Integrations</h2><p>Connect these only when ready for live calling.</p></div></div><div class="integration-row"><div class="integration-logo supa">DB</div><div><b>Supabase database</b><small id="dbStatusText">Configured · sign in to sync</small></div><span class="integration-status local" id="dbStatusBadge">READY</span></div><div class="integration-row"><div class="integration-logo phone">☎</div><div><b>Telephony provider</b><small>Not connected</small></div><span class="integration-status off">OFF</span></div><div class="integration-row"><div class="integration-logo ai">✦</div><div><b>AI conversation engine</b><small>Rule-based demo simulator</small></div><span class="integration-status demo">DEMO</span></div><div class="integration-row"><div class="integration-logo hook">↗</div><div><b>Secure webhook backend</b><small>Not configured</small></div><span class="integration-status off">OFF</span></div></div>
+        </div>
+        <div class="panel danger-panel"><div><h2>Live calling status</h2><p>Disabled. This prototype does not place calls, record audio, or send customer data to a provider.</p></div><span class="disabled-badge">● Disabled</span></div>
+      </section>
+
+      <footer class="footer"><span>© 2026 EstateVoice AI</span><span>Single-builder pilot <i></i> Demo mode only</span><span>Privacy-first · No live calls</span></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modalBackdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><div><h2 id="modalTitle">Add lead</h2><p id="modalSubtitle">Enter the builder’s existing lead details.</p></div><button class="icon-button" id="closeModal" aria-label="Close">×</button></div><form id="leadForm"><input type="hidden" id="leadId"><div class="form-grid"><label class="field-label">Full name *<input id="leadName" required placeholder="e.g. Rahul Sharma"></label><label class="field-label">Phone *<input id="leadPhone" required placeholder="+91 9XXXXXXXXX"></label><label class="field-label">Budget range<input id="leadBudget" placeholder="e.g. ₹60–75 lakh"></label><label class="field-label">Preferred location<input id="leadLocation" placeholder="e.g. Jaipur West"></label><label class="field-label">Property type<select id="leadType"><option>Apartment</option><option>Villa</option><option>Plot</option><option>Commercial</option><option>Not sure</option></select></label><label class="field-label">Lead status<select id="leadStatus"><option>New</option><option>Hot</option><option>Warm</option><option>Cold</option><option>Callback</option><option>Not Interested</option><option>Do Not Call</option></select></label><label class="field-label">Contact permission<select id="leadPermission"><option value="unknown">Not verified</option><option value="yes">Permission verified</option><option value="no">No permission / opt-out</option></select></label><label class="field-label">Purchase timeline<input id="leadTimeline" placeholder="e.g. Within 3 months"></label></div><label class="field-label">Notes<textarea id="leadNotes" rows="2" placeholder="Requirements, questions, follow-up notes"></textarea></label><div class="modal-actions"><button type="button" class="btn btn-secondary" id="cancelModal">Cancel</button><button class="btn btn-primary" type="submit">Save lead</button></div></form></div></div>
+
+  <div class="modal-backdrop hidden" id="propertyModalBackdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="propertyModalTitle"><div class="modal-head"><div><h2 id="propertyModalTitle">Add project</h2><p>Enter verified, builder-approved information.</p></div><button class="icon-button" id="closePropertyModal" aria-label="Close">×</button></div><form id="propertyForm"><input type="hidden" id="propertyId"><div class="form-grid"><label class="field-label">Project name *<input id="propertyName" required></label><label class="field-label">Builder name<input id="propertyBuilder"></label><label class="field-label">Location<input id="propertyLocation"></label><label class="field-label">Price range<input id="propertyPrice" placeholder="Only verified price range"></label><label class="field-label">Property types<input id="propertyTypes" placeholder="Apartments, plots..."></label><label class="field-label">RERA ID<input id="propertyRera" placeholder="Verified ID or leave blank"></label><label class="field-label">Possession timeline<input id="propertyPossession"></label><label class="field-label">Availability last verified<input id="propertyVerified" type="date"></label></div><label class="field-label">Amenities<textarea id="propertyAmenities" rows="2"></textarea></label><label class="field-label">FAQs / approved notes<textarea id="propertyFaq" rows="3" placeholder="Only approved answers; AI will hand off unknown questions."></textarea></label><div class="modal-actions"><button type="button" class="btn btn-secondary" id="cancelPropertyModal">Cancel</button><button class="btn btn-primary" type="submit">Save project</button></div></form></div></div>
+  <div class="modal-backdrop hidden" id="cloudModalBackdrop"><div class="modal cloud-modal" role="dialog" aria-modal="true" aria-labelledby="cloudModalTitle"><div class="modal-head"><div><h2 id="cloudModalTitle">Connect EstateVoice cloud</h2><p>Sign in to save your workspace to Supabase.</p></div><button class="icon-button" id="closeCloudModal" aria-label="Close">×</button></div><div class="cloud-config-note"><b>Project URL configured</b><small>vuhvkzehuafsjapbcmxb.supabase.co</small></div><form id="cloudAuthForm"><label class="field-label">Email<input id="cloudEmail" type="email" required autocomplete="email" placeholder="you@company.com"></label><label class="field-label">Password<input id="cloudPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="At least 6 characters"></label><div class="modal-actions cloud-actions"><button class="btn btn-secondary" type="button" id="cloudSignUp">Create account</button><button class="btn btn-primary" type="submit" id="cloudSignIn">Sign in</button></div></form><div class="cloud-account-actions hidden" id="cloudAccountActions"><p id="cloudSignedInAs"></p><button class="btn btn-primary full-btn" id="cloudSyncBtn">Sync this browser workspace to cloud</button><button class="btn btn-secondary full-btn" id="cloudSignOut">Sign out</button></div><p class="cloud-message" id="cloudMessage" role="status">Run the included SQL setup file in your Supabase SQL Editor before syncing.</p><small class="cloud-warning">Use a unique password. Never enter a Supabase secret/service-role key here. The cloud stores the current workspace JSON for this signed-in user only.</small></div></div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="app.js"></script>
+  <script src="cloud-sync.js"></script>
+</body>
+</html>
