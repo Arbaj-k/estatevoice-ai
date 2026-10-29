@@ -61,3 +61,7 @@ Official docs: https://supabase.com/docs/guides/database/postgres/row-level-secu
 
 ### Scope and limitations
 This MVP stores the current dashboard state as one JSON record per authenticated user. It is suitable for a first private pilot, not yet a multi-user builder CRM with normalized records. The supplied `builder_accounts`, `leads`, `properties`, and `call_logs` schema remains the next step for a proper tenant-aware data model. Real phone calling and AI voice are still not enabled.
+
+
+## Calling provider decision (pilot)
+For the first India-focused pilot, evaluate Exotel first because its official documentation describes a trial with limited credits (the current trial terms should be confirmed in the Exotel dashboard). This is a trial, not a guarantee of permanently free calling. The Exotel Connect Voice AI API requires an ExoPhone/caller ID, API credentials, and a reachable bidirectional WebSocket bot endpoint. Do not add credentials to GitHub or browser files. Keep live calling disabled until the provider account, server-side secrets, bot WebSocket, lead permission/opt-out checks, and status callback have been configured and tested. See the official docs: https://developer.exotel.com/docs/agentstream/connect-voice-ai and https://docs.exotel.com/business-phone-system/create-a-trial-account?hl=en-IN.
