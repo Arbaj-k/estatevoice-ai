@@ -113,7 +113,18 @@
           <label class="field-label checkbox-field"><input type="checkbox" id="callRequirePermission" checked> Only contact leads with verified permission; always respect opt-outs.</label>
           <p class="tiny-muted">These are saved as workspace preferences only. Real calls remain disabled until a telephony provider, secure server-side call function, verified caller ID, and consent/compliance checks are configured.</p>
         </div>
-        <div class="panel danger-panel"><div><h2>Live calling status</h2><p>Disabled. This prototype does not place calls, record audio, or send customer data to a provider.</p></div><span class="disabled-badge">● Disabled</span></div>
+        <div class="panel settings-panel" id="callingReadinessPanel"><div class="panel-heading"><div><h2>Calling integration setup</h2><p>Next step: choose the provider and prepare secure backend wiring. Never paste provider secrets into this dashboard.</p></div><span class="disabled-badge">NOT CONNECTED</span></div>
+          <div class="form-grid">
+            <label class="field-label">Preferred phone provider<select id="callProvider"><option value="undecided">Not chosen yet</option><option value="exotel">Exotel (India-focused)</option><option value="twilio">Twilio</option><option value="other">Another provider</option></select></label>
+            <label class="field-label">AI voice service<select id="voiceProvider"><option value="undecided">Not chosen yet</option><option value="openai">OpenAI Realtime / voice API</option><option value="other">Other voice provider</option></select></label>
+            <label class="field-label">Verified caller ID status<select id="callerIdStatus"><option value="pending">Not configured</option><option value="verified">Verified with provider</option></select></label>
+            <label class="field-label">Backend function status<select id="callBackendStatus"><option value="missing">Not deployed</option><option value="deployed">Deployed and tested</option></select></label>
+          </div>
+          <div class="call-readiness-list"><p><b>Before enabling real calls</b></p><ul><li>Provider account and approved caller ID verified</li><li>Provider credentials stored only as server-side secrets</li><li>Authenticated backend validates lead permission and opt-out status</li><li>Call result webhooks, retry limits and audit logs tested</li><li>Builder approves script, calling window and privacy notice</li></ul></div>
+          <p class="tiny-muted">These selections are planning metadata only; they do not verify external accounts or activate calling. Do not use real customer data until backend security and consent checks are tested.</p>
+          <div class="modal-actions"><button type="button" class="btn btn-primary" id="saveCallingIntegration">Save integration plan</button></div>
+        </div>
+<p>Disabled. This prototype does not place calls, record audio, or send customer data to a provider.</p></div><span class="disabled-badge">● Disabled</span></div>
       </section>
 
       <footer class="footer"><span>© 2026 EstateVoice AI</span><span>Single-builder pilot <i></i> Demo mode only</span><span>Privacy-first · No live calls</span></footer>
