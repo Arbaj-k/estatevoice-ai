@@ -12,7 +12,7 @@
     <aside class="sidebar" id="sidebar">
       <div class="brand"><div class="brand-mark">E</div><div><strong>estatevoice<span>.ai</span></strong><small>SALES CONSOLE</small></div></div>
       <div class="workspace-label">WORKSPACE</div>
-      <div class="workspace"><div class="workspace-icon" id="workspaceInitial">A</div><div><b id="workspaceName">Acme Realty</b><small>Builder workspace</small></div><span class="chevron">⌄</span></div>
+      <div class="workspace"><div class="workspace-icon" id="workspaceInitial">A</div><div><b id="workspaceName">Demo Commercial Realty</b><small>Builder workspace</small></div><span class="chevron">⌄</span></div>
       <nav class="nav">
         <button class="nav-item active" data-page="overview"><span>◫</span> Overview</button>
         <button class="nav-item" data-page="leads"><span>♧</span> Leads <b id="navLeadCount" class="nav-count">8</b></button>
@@ -36,7 +36,7 @@
 
       <section class="page active" id="page-overview">
         <div class="page-heading"><div><div class="eyebrow">MONDAY, OCTOBER 29, 2026</div><h1>Sales overview <span class="wave">✦</span></h1><p>Here’s what’s happening with your sales pipeline today.</p></div><button class="btn btn-primary" data-goto="leads">＋ Add leads</button></div>
-        <div class="banner"><div class="banner-icon">✦</div><div><b>Your AI sales assistant is ready to test</b><p>Import builder leads, add verified project details, then run a simulated Hinglish call.</p></div><button class="banner-link" data-goto="campaigns">Try a demo call <span>→</span></button><button class="banner-close" id="dismissBanner">×</button></div>
+        <div class="banner"><div class="banner-icon">✦</div><div><b>Your commercial AI demo is ready to explore</b><p>Use fictional commercial leads and verified project facts, then run a simulated Hinglish call.</p></div><button class="banner-link" data-goto="campaigns">Try a demo call <span>→</span></button><button class="banner-close" id="dismissBanner">×</button></div>
         <div class="stats-grid">
           <article class="stat-card"><div class="stat-top"><span>Total leads</span><span class="stat-icon blue">♧</span></div><div class="stat-number" id="statLeads">8</div><div class="stat-foot"><span class="neutral-chip">Pilot workspace</span><span class="muted">in your pipeline</span></div></article>
           <article class="stat-card"><div class="stat-top"><span>Demo calls completed</span><span class="stat-icon violet">◉</span></div><div class="stat-number" id="statCalls">3</div><div class="stat-foot"><span class="positive">↗ Demo activity</span><span class="muted">simulated only</span></div></article>
@@ -71,7 +71,7 @@
             <label class="field-label">Select lead<select id="demoLead"></select></label>
             <label class="field-label">Property project<select id="demoProperty"></select></label>
             <label class="field-label">Call purpose<select id="callPurpose"><option value="qualify">Qualify buyer requirements</option><option value="project">Explain project</option><option value="callback">Arrange sales callback</option><option value="visit">Request a site visit</option></select></label>
-            <label class="field-label">AI opening line<textarea id="openingLine" rows="3">Hello sir/ma’am, main EstateVoice AI ki virtual assistant hoon, Acme Realty ki taraf se. Kya abhi do minute baat karna convenient hai?</textarea></label>
+            <label class="field-label">AI opening line<textarea id="openingLine" rows="3">Namaste, main Demo Commercial Realty ki AI assistant hoon. Kya abhi do minute baat karna convenient hai?</textarea></label>
             <div class="permission-note"><span>✓</span><p><b>Demo-safe environment</b><br>Conversation is simulated in your browser. No number is dialed.</p></div>
             <button class="btn btn-primary full-btn" id="runDemo">▶ Run simulated call</button>
             <button class="btn btn-disabled full-btn" disabled>☎ Start real campaign — not configured</button>
@@ -100,7 +100,7 @@
       <section class="page" id="page-settings">
         <div class="page-heading"><div><div class="eyebrow">WORKSPACE CONFIGURATION</div><h1>Settings</h1><p>Manage the builder profile and connected services.</p></div><button class="btn btn-primary" id="saveSettings">Save settings</button></div>
         <div class="settings-grid">
-          <div class="panel settings-panel"><div class="panel-heading"><div><h2>Builder profile</h2><p>Company details shown in the demo.</p></div></div><label class="field-label">Builder / company name<input id="builderName" value="Acme Realty"></label><label class="field-label">Sales handoff contact<input id="handoffContact" placeholder="Sales team phone or email"></label><label class="field-label">Business hours<input id="businessHours" value="Mon–Sat, 10:00 AM – 6:00 PM"></label><label class="field-label">AI conversation style<select id="aiTone"><option>Friendly and professional Hinglish</option><option>Formal Hindi</option><option>Simple English</option></select></label></div>
+          <div class="panel settings-panel"><div class="panel-heading"><div><h2>Builder profile</h2><p>Company details shown in the demo.</p></div></div><label class="field-label">Builder / company name<input id="builderName" value="Demo Commercial Realty"></label><label class="field-label">Sales handoff contact<input id="handoffContact" placeholder="Sales team phone or email"></label><label class="field-label">Business hours<input id="businessHours" value="Mon–Sat, 10:00 AM – 6:00 PM"></label><label class="field-label">AI conversation style<select id="aiTone"><option>Friendly and professional Hinglish</option><option>Formal Hindi</option><option>Simple English</option></select></label></div>
           <div class="panel settings-panel"><div class="panel-heading"><div><h2>Integrations</h2><p>Connect these only when ready for live calling.</p></div></div><div class="integration-row"><div class="integration-logo supa">DB</div><div><b>Supabase database</b><small id="dbStatusText">Configured · sign in to sync</small></div><span class="integration-status local" id="dbStatusBadge">READY</span></div><div class="integration-row"><div class="integration-logo phone">☎</div><div><b>Telephony provider</b><small>Not connected</small></div><span class="integration-status off">OFF</span></div><div class="integration-row"><div class="integration-logo ai">✦</div><div><b>AI conversation engine</b><small>Rule-based demo simulator</small></div><span class="integration-status demo">DEMO</span></div><div class="integration-row"><div class="integration-logo hook">↗</div><div><b>Secure webhook backend</b><small>Not configured</small></div><span class="integration-status off">OFF</span></div></div>
         </div>
         <div class="panel settings-panel call-settings-panel"><div class="panel-heading"><div><h2>Call settings</h2><p>Configure the builder’s preferred calling workflow. These settings do not place calls.</p></div><span class="disabled-badge">DEMO ONLY</span></div>
