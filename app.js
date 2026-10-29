@@ -87,7 +87,7 @@ function renderBranding(){
  const label=$("workspaceName"),initial=$("workspaceInitial"),title=document.querySelector("#page-overview h1");
  if(label)label.textContent=name;
  if(initial)initial.textContent=initials(name).slice(0,1);
- if(title)title.innerHTML=escapeHtml(name)+" <span class="wave">✦</span>";
+ if(title)title.innerHTML=escapeHtml(name)+' <span class="wave">✦</span>';
  document.title="EstateVoice AI — "+name;
 }
 function renderAll(){renderBranding();renderOverview();renderLeads();renderCalls();renderProperties();fillSelects();$("builderName").value=state.settings.builderName||"";$("handoffContact").value=state.settings.handoffContact||"";$("businessHours").value=state.settings.businessHours||"";$("aiTone").value=state.settings.aiTone||"Friendly and professional Hinglish";}
