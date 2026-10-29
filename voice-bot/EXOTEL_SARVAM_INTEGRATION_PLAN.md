@@ -7,14 +7,22 @@
 - No live calling integration is deployed or verified.
 - Builder identity and actual commercial project data are not yet known.
 
-## Integration decisions to verify before coding the provider bridge
-1. In Sarvam Voice Agents, open the agent integration / telephony section and record the exact supported telephony providers and webhook/API options. Do not infer that Exotel is directly supported just because both products have voice APIs.
-2. In Exotel, confirm AgentStream / Connect Voice AI access is enabled for this account and read the account-specific WebSocket protocol and audio codec/sample-rate requirements.
-3. Choose the server deployment target only after confirming it supports persistent WebSockets. Supabase Edge Functions may not be suitable for a long-running bidirectional audio bridge; use a WebSocket-capable service if needed.
-4. Use only server-side secrets. Never put Exotel tokens or voice-model API keys in public GitHub or browser JavaScript.
-5. Implement the documented audio protocol end-to-end: session start, inbound audio frames, turn handling, outbound audio frames, disconnect, timeouts and provider error events.
-6. Add a secure authenticated call-initiation endpoint, consent/opt-out/calling-window checks, idempotency, rate/spend limits and verified status callbacks.
-7. Test only with an explicitly consenting internal test number. Keep live-calling feature flag off until the full loop passes.
+## Recommended integration route (verified from current Sarvam documentation)
+Sarvam Voice Agents supports connecting an existing Exotel account through **Deploy → Phone Numbers → Add Connection → Exotel**. Prefer this managed route for the single-builder pilot instead of writing a custom audio bridge first.
+
+1. In Sarvam Voice Agents, open **Deploy → Phone Numbers → Add Connection → Exotel**.
+2. Enter Account SID, API Key, API Token, and Base URL. For India, Sarvam docs list `api.in.exotel.com`; verify region from the Exotel dashboard. Never paste secrets into GitHub or this chat.
+3. Save the connection. Then follow Sarvam's current Exotel guide to configure the Exotel App Bazaar voicebot call flow and assign it to the ExoPhone. Use the exact endpoint shown in Sarvam docs; do not improvise a WebSocket URL.
+4. Add the ExoPhone under the Sarvam connection, then route it to the agent using an inbound deployment or an outbound campaign as appropriate.
+5. Before an outbound campaign, confirm pricing, permissions, opt-out handling, and any test-number limits in the account.
+6. Test in Sarvam's Test Agent first (browser voice); then use the Phone test only with an explicitly consenting internal number and if the account permits it.
+
+Official guide: https://docs.sarvam.ai/voice-agents/deploy/telephony/exotel
+
+## Custom backend still required for CRM governance
+Sarvam's managed telephony avoids building a custom bidirectional audio bridge for the initial pilot. EstateVoice's own backend is still needed for secure lead permissions, builder-specific access, spend/rate limits, CRM synchronization, and audit records if calls are initiated from the dashboard.
+
+Never put Exotel tokens or voice-model API keys in public GitHub or browser JavaScript. Keep dashboard-triggered live calling disabled until consent checks and the end-to-end path are verified.
 
 ## Required test matrix
 - Missing secrets -> fail closed
