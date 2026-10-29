@@ -99,7 +99,7 @@ function renderCallSettings(){
  if($("callOpeningScript"))$("callOpeningScript").value=s.openingScript||"Namaste, main {{builder}} ki virtual assistant hoon. Kya abhi do minute baat karna convenient hai?";
  if($("callRequirePermission"))$("callRequirePermission").checked=s.requirePermission!==false;
 }
-function renderAll(){renderBranding();renderOverview();renderLeads();renderCalls();renderProperties();fillSelects();$("builderName").value=state.settings.builderName||"";$("handoffContact").value=state.settings.handoffContact||"";$("businessHours").value=state.settings.businessHours||"";$("aiTone").value=state.settings.aiTone||"Friendly and professional Hinglish";renderCallSettings();}
+function renderAll(){renderBranding();renderOverview();renderLeads();renderCalls();renderProperties();fillSelects();$("builderName").value=state.settings.builderName||"";$("handoffContact").value=state.settings.handoffContact||"";$("businessHours").value=state.settings.businessHours||"";$("aiTone").value=state.settings.aiTone||"Friendly and professional Hinglish";renderCallSettings();renderCallingIntegration();}
 function openLeadModal(id){const l=state.leads.find(x=>x.id===id);$("leadForm").reset();$("leadId").value=l?.id||"";$("modalTitle").textContent=l?"Edit lead":"Add lead";$("modalSubtitle").textContent="Enter the builder’s existing lead details.";if(l){$("leadName").value=l.name;$("leadPhone").value=l.phone;$("leadBudget").value=l.budget||"";$("leadLocation").value=l.location||"";$("leadType").value=l.type||"Apartment";$("leadStatus").value=l.status||"New";$("leadPermission").value=l.permission||"unknown";$("leadTimeline").value=l.timeline||"";$("leadNotes").value=l.notes||"";} $("modalBackdrop").classList.remove("hidden");}
 function closeLeadModal(){$("modalBackdrop").classList.add("hidden");}
 $("addLeadBtn").addEventListener("click",()=>openLeadModal());$("closeModal").addEventListener("click",closeLeadModal);$("cancelModal").addEventListener("click",closeLeadModal);
@@ -133,6 +133,13 @@ function runDemo(){
 }
 $("runDemo").addEventListener("click",runDemo);
 $("saveSettings").addEventListener("click",()=>{state.settings={builderName:$("builderName").value.trim()||"Builder workspace",handoffContact:$("handoffContact").value.trim(),businessHours:$("businessHours").value.trim(),aiTone:$("aiTone").value};save();showToast("Builder profile saved. Workspace branding updated.");});
+function renderCallingIntegration(){
+ const s=state.settings.callIntegration||{};
+ if($("callProvider"))$("callProvider").value=s.provider||"undecided";
+ if($("voiceProvider"))$("voiceProvider").value=s.voiceProvider||"undecided";
+ if($("callerIdStatus"))$("callerIdStatus").value=s.callerIdStatus||"pending";
+ if($("callBackendStatus"))$("callBackendStatus").value=s.backendStatus||"missing";
+}
 function saveCallSettings(){
  state.settings=state.settings||{};
  state.settings.callSettings={language:$("callLanguage").value,window:$("callWindow").value,maxAttempts:Number($("callMaxAttempts").value),retryGap:Number($("callRetryGap").value),openingScript:$("callOpeningScript").value.trim(),requirePermission:$("callRequirePermission").checked};
@@ -141,6 +148,11 @@ function saveCallSettings(){
 const saveCallBtn=document.createElement("button");
 saveCallBtn.type="button";saveCallBtn.className="btn btn-primary";saveCallBtn.textContent="Save call settings";
 saveCallBtn.addEventListener("click",saveCallSettings);
+$("saveCallingIntegration")?.addEventListener("click",()=>{
+ state.settings=state.settings||{};
+ state.settings.callIntegration={provider:$("callProvider").value,voiceProvider:$("voiceProvider").value,callerIdStatus:$("callerIdStatus").value,backendStatus:$("callBackendStatus").value};
+ save();showToast("Integration plan saved locally. This does not enable live calling.");
+});
 const callPanel=document.querySelector(".call-settings-panel");
 if(callPanel){const actions=document.createElement("div");actions.className="modal-actions";actions.appendChild(saveCallBtn);callPanel.appendChild(actions);}
 
