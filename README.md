@@ -10,13 +10,13 @@ A browser-based prototype for a single-builder commercial real-estate sales pilo
 If needed, run `python -m http.server 8000` from this folder and open `http://localhost:8000`.
 
 ## Prototype features
-- Responsive dashboard and lead pipeline
+- Responsive dashboard and commercial-property lead pipeline
 - Add/edit leads and CSV import/template
 - Duplicate phone-number check
 - Consent/permission status and Do Not Call safeguards for demo flows
 - Commercial property types and qualification fields
 - Property knowledge base
-- Hinglish simulated text-call workflow
+- Hinglish simulated text-call workflow (no phone call is placed)
 - Call history and summaries
 - Follow-up queue for callback/site-visit requests
 - Builder settings
@@ -28,6 +28,8 @@ This is **not yet a production multi-user application**. Browser data remains lo
 The owner reports that Sarvam has one active Exotel connection and one imported phone number. The Sarvam outbound campaign named `sayam` showed one failed attempt, zero connected calls, 0% completion and 0% pickup in the shared dashboard screenshot. A successful end-to-end call has **not** been verified. Do not launch a bulk campaign until the failure is diagnosed and a single explicitly consented internal test succeeds.
 
 - [Commercial voice-agent prompt](AI_AGENT_PROMPT.md)
+- [Client demo one-pager](voice-bot/CLIENT_DEMO_ONE_PAGER.md)
+- [Client demo runbook](voice-bot/CLIENT_DEMO_RUNBOOK.md)
 - [First outbound call test checklist](voice-bot/FIRST_CALL_TEST_CHECKLIST.md)
 - [Exotel + Sarvam integration plan](voice-bot/EXOTEL_SARVAM_INTEGRATION_PLAN.md)
 - [Current implementation phase](voice-bot/PHASE_NEXT.md)
