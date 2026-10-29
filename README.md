@@ -1,29 +1,30 @@
-# EstateVoice AI
+# EstateVoice AI — no-Lovable MVP
 
-A static real-estate sales workspace prototype for organising prospects, property inventory, and simulated call flows.
+A static, browser-based prototype for a single-builder real-estate sales pilot.
 
-## Included
-- `index.html` — dashboard and workspace UI
-- `styles.css` — responsive desktop/mobile styling
-- `app.js` — lead and property forms, local demo storage, CSV export, and simulated call activity
-- `AI_AGENT_PROMPT.md` — starting conversation and safety specification for a future voice agent
-- `BACKEND_SETUP.md` — backend/security integration notes
-- `LEAD_IMPORT_TEMPLATE.csv` — blank CSV template for lead fields
-- `.github/workflows/pages.yml` — automatic GitHub Pages deployment workflow
+## Run locally
+1. Extract the ZIP.
+2. Open `index.html` in Chrome, Edge, or Firefox.
+3. Prototype data is stored in that browser using `localStorage`.
 
-## Deploy to GitHub Pages
-1. Open **Settings → Pages**.
-2. Set **Build and deployment → Source** to **GitHub Actions**.
-3. Open the **Actions** tab and check **Deploy EstateVoice AI to GitHub Pages**.
-4. Once successful, find the public URL in the workflow run or Settings → Pages.
+If needed, run `python -m http.server 8000` from this folder and open `http://localhost:8000`.
 
-Every push to `main` triggers deployment. Changes made in ChatGPT do not reach GitHub unless they are committed to this repository.
+## Prototype features
+- Responsive dashboard and lead pipeline
+- Add/edit leads and CSV import/template
+- Duplicate phone-number check
+- Consent/permission status and Do Not Call safeguards for demo flows
+- Property knowledge base
+- Hinglish simulated text-call workflow
+- Call history and summaries
+- Builder settings
 
-## Important current limitations
-- **Demo only:** the app does not place real phone calls. “Simulate a call” only records a sample flow.
-- **Browser-only storage:** leads, properties, and simulated-call activity are stored in the current browser's `localStorage`. They do not sync across devices or team members and may be lost if browser data is cleared.
-- **No Supabase connection yet:** the current build has not been connected to a verified database. See `BACKEND_SETUP.md` before adding a backend.
-- **No production calling integration:** a real voice agent needs a secured backend, a voice/telephony provider, consent and opt-out handling, and applicable compliance checks.
+## Important limitations
+This is not yet a production multi-user application. Data remains in one browser; demo calls are simulated text only and do not dial numbers, create audio, or contact customers. The sample leads/property facts are fictional. Do not use real customer data until authentication, cloud storage, access controls, privacy and backup behaviour have been tested.
 
-## Security
-This is a public repository. Never commit real customer data, lead exports, passwords, API tokens, or Supabase service-role keys. Do not store real prospect information in this demo.
+## Step 2 files
+See `BACKEND_SETUP.md` and `supabase-schema.sql` for the database foundation. Running the SQL does not connect the dashboard automatically. Real calls require a secure server-side integration, a telephony provider, webhooks, and review of applicable Indian calling, consent, opt-out and privacy requirements.
+
+
+## Supabase connection
+The browser Supabase URL and publishable key are configured in `supabase-config.js`. Run `supabase-schema.sql` in the matching project's SQL Editor, serve this folder over localhost, then use **Connect cloud** to sign up/sign in and explicitly sync the current workspace. Do not add secret/service-role keys to browser files. This build syncs the whole local dashboard state into one private JSON record per user; normalized CRM tables and live calling remain future work.
